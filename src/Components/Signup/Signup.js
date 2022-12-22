@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Context/AuthProvider';
 import '../Effect.css'
 
 const Signup = () => {
+    const {createUser} = useContext(AuthContext)
+    const navigate = useNavigate();
 
     const {register, handleSubmit} = useForm();
 
     const signUp = data => {
+
+        createUser(data.email, data.password)
+        .then(result => {
+            const user = result.user
+            console.log(user);
+            if (user) {
+                toast.success("Signup successful!");
+            }
+            navigate('/');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        
 
         const userInfo = {
             data
