@@ -1,20 +1,34 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import '../Effect.css'
 
 const Signup = () => {
+
+    const {register, handleSubmit} = useForm();
+
+    const signUp = data => {
+
+        const userInfo = {
+            data
+        }
+        console.log(userInfo.data);
+    }
+
     return (
         <div>
             {/* form body */}
             <div className='w-80 h-auto lg:w-[400px] rounded-xl shadow-effect mx-auto mt-20 lg:mt-40 bg-gray-200 px-10 py-10'>
                 <h2 className="text-3xl font-bold -mt-5 mb-5">Sign Up</h2>
-                <form action="">
+                <form onSubmit={handleSubmit(signUp)}>
                     {/* Form body, user name */}
                     <div className=''>
                         <label className='block text-start mb-2'>
                             <span className='text-xl font-semibold'>User Name</span>
                         </label>
-                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="text" name="name" placeholder="Your Name" required />
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="text" 
+                        {...register("name", { required: true })}
+                         placeholder="Your Name" required />
 
                     </div>
 
@@ -24,7 +38,8 @@ const Signup = () => {
                         <label className='block text-start mb-2'>
                             <span className='text-xl font-semibold'>Email</span>
                         </label>
-                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email" name="email" placeholder="Your Email" required />
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email" {...register("email", { required: true })}
+                         placeholder="Your Email" required />
 
                     </div>
 
@@ -34,7 +49,8 @@ const Signup = () => {
                         <label className='block text-start mb-2'>
                             <span className='text-xl font-semibold'>Password</span>
                         </label>
-                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="password" name="password" placeholder="Your Password" required />
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="password" {...register("password", { required: true })}
+                         placeholder="Your Password" required />
 
                     </div>
 
