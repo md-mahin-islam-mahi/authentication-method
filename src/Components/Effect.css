@@ -1,0 +1,5 @@
+.shadow-effect {
+    box-shadow: 10px 10px 10px #3f3f3f5b,
+        inset -5px -5px 5px #3f3f3f98,
+        inset 10px 10px 10px #ffffff9c
+}
