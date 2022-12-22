@@ -6,37 +6,52 @@ import { AuthContext } from '../Context/AuthProvider';
 import '../Effect.css'
 
 const Signup = () => {
-    const {createUser} = useContext(AuthContext)
+    const { createUser, updateUserProfile } = useContext(AuthContext)
     const navigate = useNavigate();
 
-    const {register, handleSubmit} = useForm();
+    const { register, handleSubmit } = useForm();
 
     const signUp = data => {
 
         createUser(data.email, data.password)
-        .then(result => {
-            const user = result.user
-            console.log(user);
-            if (user) {
-                toast.success("Signup successful!");
-            }
-            navigate('/');
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        
+            .then(result => {
+                const user = result.user;
+                const displayName = data.name;
+                const email = data.email;
+                const phoneNumber = data.phone;
+                const address = data.address;
 
-        const userInfo = {
-            data
-        }
-        console.log(userInfo.data);
+                const userInfo = {
+                    displayName,
+                    email,
+                    phoneNumber,
+                    address
+                }
+                updateUserProfile(userInfo);
+                fetch("http://localhost:5000/add-user", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userInfo)
+                })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+
+                    .then(() => { })
+
+                if (user) {
+                    toast.success("Signup successful!");
+                }
+                navigate('/');
+            })
+            .catch(err => console.error(err));
     }
 
     return (
         <div>
             {/* form body */}
-            <div className='w-80 h-auto lg:w-[400px] rounded-xl shadow-effect mx-auto mt-20 lg:mt-40 bg-gray-200 px-10 py-10'>
+            <div className='w-80 h-auto lg:w-[500px] rounded-xl shadow-effect mx-auto mt-20 lg:mt-40 bg-gray-200 px-10 py-10'>
                 <h2 className="text-3xl font-bold -mt-5 mb-5">Sign Up</h2>
                 <form onSubmit={handleSubmit(signUp)}>
                     {/* Form body, user name */}
@@ -44,9 +59,9 @@ const Signup = () => {
                         <label className='block text-start mb-2'>
                             <span className='text-xl font-semibold'>User Name</span>
                         </label>
-                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="text" 
-                        {...register("name", { required: true })}
-                         placeholder="Your Name" required />
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="text"
+                            {...register("name", { required: true })}
+                            placeholder="Your Name" required />
 
                     </div>
 
@@ -56,8 +71,31 @@ const Signup = () => {
                         <label className='block text-start mb-2'>
                             <span className='text-xl font-semibold'>Email</span>
                         </label>
-                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email" {...register("email", { required: true })}
-                         placeholder="Your Email" required />
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email"
+                            {...register("email", { required: true })}
+                            placeholder="Your Email" required />
+
+                    </div>
+
+                    {/* Form body, phone */}
+                    <div className='mt-7'>
+                        <label className='block text-start mb-2'>
+                            <span className='text-xl font-semibold'>Phone Number</span>
+                        </label>
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="text"
+                            {...register("phone", { required: true })}
+                            placeholder="Your Phone Number" required />
+
+                    </div>
+
+                    {/* Form body, address */}
+                    <div className='mt-7'>
+                        <label className='block text-start mb-2'>
+                            <span className='text-xl font-semibold'>Address</span>
+                        </label>
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="text"
+                            {...register("address", { required: true })}
+                            placeholder="Your Address" required />
 
                     </div>
 
@@ -68,7 +106,7 @@ const Signup = () => {
                             <span className='text-xl font-semibold'>Password</span>
                         </label>
                         <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="password" {...register("password", { required: true })}
-                         placeholder="Your Password" required />
+                            placeholder="Your Password" required />
 
                     </div>
 

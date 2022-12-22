@@ -1,20 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Context/AuthProvider';
 import '../Effect.css'
 
 const Login = () => {
+    const {userLogin} = useContext(AuthContext);
+    const {register, formState: {errors}, handleSubmit } = useForm();
+    const navigate = useNavigate();
+
+    const signIn = data => {
+        userLogin(data.email, data.password)
+        .then(result => {
+            const user = result.user
+            if (user) {
+                toast.success("Login successful!");
+                navigate('/')
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
     return (
         <div>
             {/* form body */}
-            <div className='w-80 h-[480px] lg:w-[400px] rounded-xl shadow-effect mx-auto mt-40 bg-gray-200 px-10 py-10'>
+            <div className='w-80 h-auto lg:w-[400px] rounded-xl shadow-effect mx-auto mt-40 bg-gray-200 px-10 py-10'>
                 <h2 className="text-3xl font-bold -mt-5 mb-5">Login</h2>
-                <form action="">
+                <form onSubmit={handleSubmit(signIn)}>
                     {/* Form body, email */}
                     <div className=''>
                         <label className='block text-start mb-2'>
                             <span className='text-xl font-semibold'>Email</span>
                         </label>
-                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email" name="email" placeholder="Your Email" required />
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email" 
+                        {...register("email", { required: "Wrong Email" })}
+                         placeholder="Your Email" />
+                         <p className='text-start text-red-500 '>{errors.email?.message}</p>
 
                     </div>
 
@@ -23,7 +45,10 @@ const Login = () => {
                         <label className='block text-start mb-2'>
                             <span className='text-xl font-semibold'>Password</span>
                         </label>
-                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="password" name="password" placeholder="Your Password" required />
+                        <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="password" 
+                        {...register("password", { required: "Wrong Password" })}
+                         placeholder="Your Password" />
+                         <p className='text-start text-red-500 '>{errors.password?.message}</p>
 
                     </div>
 
