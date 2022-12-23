@@ -1,16 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../Context/AuthProvider';
 
 const Home = () => {
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/user/${user?.email}`)
+            .then(res => res.json())
+            .then(data => setCurrentUser(data))
+    }, [user?.email])
+
     return (
-        <div className='mt-60'>
-            <h2 className=' text-5xl font-bold'>You're Welcome {user?.displayName}...</h2>
-            <h3 className="text-2xl text-blue-500">Want to update Username and Password?</h3>
-            <div className='mt-5'>
-                <Link className='mx-2 font-semibold text-xl lg:text-2xl lg:mx-5 hover:text-blue-500 transition duration-200 py-2 px-5 rounded-lg bg-gray-200 hover:bg-gray-100/50' to="/update">Update</Link>
-            </div>
+        <div className='mt-40'>
+            <h2 className=' text-5xl font-bold'>You're Welcome {currentUser?.displayName}...</h2>
+            {
+                user  &&
+                    <div className='w-96 lg:w-[450px] h-auto bg-gray-100 font-semibold text-gray-500 rounded-lg shadow-effect mx-auto text-start my-10 py-5 px-3'>
+                        <h3 className="text-2xl lg:text-3xl">Your Name: {currentUser?.displayName}</h3>
+                        <h3 className="text-2xl lg:text-3xl">Your Email: {currentUser?.email}</h3>
+                        <h3 className="text-2xl lg:text-3xl">Your Phone: {currentUser?.phoneNumber}</h3>
+                        <h3 className="text-2xl lg:text-3xl">Your Address: {currentUser?.address}</h3>
+                    </div>
+            }
         </div>
     );
 };
