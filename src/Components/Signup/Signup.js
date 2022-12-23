@@ -28,7 +28,7 @@ const Signup = () => {
                     address
                 }
                 updateUserProfile(userInfo);
-                fetch("http://localhost:5000/add-user", {
+                fetch("https://signup-and-login-server.vercel.app/add-user", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'

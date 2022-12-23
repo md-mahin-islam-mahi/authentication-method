@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AuthContext } from '../Context/AuthProvider';
 
 const Home = () => {
@@ -7,7 +6,7 @@ const Home = () => {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/user/${user?.email}`)
+        fetch(`https://signup-and-login-server.vercel.app/user/${user?.email}`)
             .then(res => res.json())
             .then(data => setCurrentUser(data))
     }, [user?.email])
