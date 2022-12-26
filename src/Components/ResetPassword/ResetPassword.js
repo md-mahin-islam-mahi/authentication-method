@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Context/AuthProvider';
 
 const ResetPassword = () => {
+    const [error, setError] = useState('');
     const {resetPassword} = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -16,7 +17,10 @@ const ResetPassword = () => {
             toast("Check your email");
             navigate("/login");
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const errorCode = err.code.split("auth/")[1];
+            setError(errorCode);
+        });
     }
     return (
         <div>
@@ -32,7 +36,7 @@ const ResetPassword = () => {
                         <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email"
                             {...register("email", { required: "Email is required" })}
                             placeholder="Your Email" />
-                        <p className='text-start text-red-500 '>{errors.email?.message}</p>
+                        <p className='text-red-500 font-semibold text-start text-xl'>{error}</p>
 
                     </div>
 
