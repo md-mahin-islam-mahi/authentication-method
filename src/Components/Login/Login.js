@@ -20,7 +20,10 @@ const Login = () => {
                     navigate('/')
                 }
             })
-            .catch(err => setError(err));
+            .catch(err => {
+                const errorCode = err.code.split('auth/')[1];
+                setError(errorCode);
+            });
     }
 
     return (
