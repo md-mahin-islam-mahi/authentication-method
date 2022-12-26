@@ -57,8 +57,8 @@ const Login = () => {
                     </div>
 
                     <div className='mt-7'>
+                        <p className="text-red-500 font-semibold text-start text-xl">{error}</p>
                         <input className='w-full h-[50px] mt-5 py-auto outline-none rounded-lg bg-blue-400 text-2xl font-semibold text-white hover:text-black hover:bg-gray-100 transition duration-200 cursor-pointer' type="submit" />
-                        <p className="text-red-500">{error}</p>
                     </div>
                     <div>
                         <Link to="/reset-password">

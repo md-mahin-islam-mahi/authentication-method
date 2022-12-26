@@ -77,7 +77,7 @@ const Signup = () => {
                         </label>
                         <input className='w-full h-[50px] px-3 py-5 outline-none rounded-lg text-xl' type="email"
                             {...register("email")}
-                            placeholder="Your Email"  />
+                            placeholder="Your Email" />
 
                     </div>
 
@@ -115,9 +115,9 @@ const Signup = () => {
                     </div>
 
                     <div className='mt-7'>
+                        <p className='text-red-500 font-semibold text-start text-xl'>{error}</p>
                         <input className='w-full h-[50px] mt-5 py-auto outline-none rounded-lg bg-blue-400 text-2xl font-semibold text-white hover:text-black hover:bg-gray-100 transition duration-200 cursor-pointer' type="submit" />
                     </div>
-                    <p className='text-red-500 font-semibold text-start text-xl'>{error}</p>
                 </form>
                 <div className='relative mt-5'>
                     <div className='h-[2px] w-full rounded-lg mt-5 bg-gray-400'>
